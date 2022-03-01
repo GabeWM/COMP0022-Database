@@ -1,14 +1,32 @@
 USE `comp0022_database`;
 
-/*
-LOAD DATA INFILE 'movies_table.csv' 
-INTO TABLE movies 
+
+LOAD DATA INFILE 'ml_movies_table.csv' 
+INTO TABLE ml_movies 
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-DESCRIBE `movies`;
+DESCRIBE `ml_movies`;
+
+LOAD DATA INFILE 'ml_ratings_table.csv' 
+INTO TABLE ml_ratings
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+DESCRIBE `ml_ratings`;
+
+LOAD DATA INFILE 'ml_tags_table.csv' 
+INTO TABLE ml_tags
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+DESCRIBE `ml_tags`;
 
 LOAD DATA INFILE 'personality_table.csv' 
 INTO TABLE personality
@@ -18,32 +36,21 @@ LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
 DESCRIBE `personality`;
-*/
 
-
-LOAD DATA INFILE 'test_table.csv' 
-INTO TABLE ratings
+LOAD DATA INFILE 'personality_ratings_table.csv' 
+INTO TABLE personality_ratings
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-DESCRIBE `ratings`;
+DESCRIBE `personality_ratings`;
 
-LOAD DATA INFILE 'tags_table.csv' 
-INTO TABLE tags
+LOAD DATA INFILE 'personality_predictions_table.csv' 
+INTO TABLE personality_predictions
 FIELDS TERMINATED BY ',' 
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-DESCRIBE `tags`;
-
-LOAD DATA INFILE 'predictions_table.csv' 
-INTO TABLE predictions
-FIELDS TERMINATED BY ',' 
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-
-DESCRIBE `predictions`;
+DESCRIBE `personality_predictions`;

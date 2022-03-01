@@ -35,8 +35,8 @@ DROP TABLE `personality`;
 DROP TABLE `movies`;
 */
 
-CREATE TABLE IF NOT EXISTS `movies` (
-    `movie_id` INT UNIQUE NOT NULL, 
+CREATE TABLE IF NOT EXISTS `ml_movies` (
+    `ml_movie_id` INT UNIQUE NOT NULL, 
     `title` VARCHAR(200) NOT NULL, 
     `year` YEAR, 
     `tmdb_id` INT, 
@@ -59,11 +59,31 @@ CREATE TABLE IF NOT EXISTS `movies` (
     `thriller` TINYINT(1) NOT NULL, 
     `war` TINYINT(1) NOT NULL, 
     `western` TINYINT(1) NOT NULL, 
-    PRIMARY KEY(`movie_id`)
+    PRIMARY KEY(`ml_movie_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `ml_ratings` (
+    `ml_user_id` SMALLINT NOT NULL,
+    `ml_movie_id` INT NOT NULL,
+    `rating` TINYINT NOT NULL,
+    `timestamp` TIMESTAMP NOT NULL,
+    PRIMARY KEY (`ml_user_id`, `ml_movie_id`),
+    FOREIGN KEY (`ml_movie_id`) REFERENCES `ml_movies`(`ml_movie_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `ml_tags` (
+    `index` INT UNIQUE NOT NULL,
+    `ml_user_id` SMALLINT NOT NULL,
+    `ml_movie_id` INT NOT NULL,
+    `tag` VARCHAR(200) NOT NULL,
+    `timestamp` TIMESTAMP NOT NULL,
+    PRIMARY KEY (`index`),
+    FOREIGN KEY (`ml_movie_id`) REFERENCES `ml_movies`(`ml_movie_id`),
+    FOREIGN KEY (`ml_user_id`) REFERENCES `ml_ratings`(`ml_user_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `personality` (
-    `personality_id` VARCHAR(32),
+    `personality_user_id` VARCHAR(32) NOT NULL,
     `assigned_metric` VARCHAR(32) NOT NULL,
     `assigned_condition` VARCHAR(32) NOT NULL,
     `openness` DECIMAL(2,1) NOT NULL,
@@ -73,38 +93,24 @@ CREATE TABLE IF NOT EXISTS `personality` (
     `extraversion` DECIMAL(2,1) NOT NULL,
     `is_personalized` TINYINT NOT NULL,
     `enjoyed_watching` TINYINT NOT NULL,
-    PRIMARY KEY (`personality_id`)
+    PRIMARY KEY (`personality_user_id`)
 );
 
-CREATE TABLE IF NOT EXISTS `ratings` (
-    `user_id` SMALLINT NOT NULL,
-    `movie_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `personality_ratings` (
+    `personality_user_id` VARCHAR(32) NOT NULL,
+    `personality_movie_id` INT NOT NULL,
     `rating` TINYINT NOT NULL,
     `timestamp` TIMESTAMP NOT NULL,
-    `personality_id` VARCHAR(32),
-    PRIMARY KEY (`user_id`, `movie_id`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movies`(`movie_id`),
-    FOREIGN KEY (`personality_id`) REFERENCES `personality`(`personality_id`)
+    PRIMARY KEY (`personality_user_id`, `personality_movie_id`),
+    FOREIGN KEY (`personality_user_id`) REFERENCES `personality` (`personality_user_id`)
 );
 
-CREATE TABLE IF NOT EXISTS `tags` (
-    `index` INT UNIQUE NOT NULL,
-    `user_id` SMALLINT NOT NULL,
-    `movie_id` INT NOT NULL,
-    `tag` VARCHAR(200) NOT NULL,
-    `timestamp` TIMESTAMP NOT NULL,
-    PRIMARY KEY (`index`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movies`(`movie_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `ratings`(`user_id`)
-);
-
-CREATE TABLE IF NOT EXISTS `predictions` (
-    `personality_id` VARCHAR(32),
-    `movie_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `personality_predictions` (
+    `personality_user_id` VARCHAR(32) NOT NULL,
+    `personality_movie_id` INT NOT NULL,
     `predictions` DECIMAL(12,11) NOT NULL,
-    PRIMARY KEY (`personality_id`, `movie_id`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movies`(`movie_id`),
-    FOREIGN KEY (`personality_id`) REFERENCES `personality`(`personality_id`)
+    PRIMARY KEY (`personality_user_id`, `personality_movie_id`),
+    FOREIGN KEY (`personality_user_id`) REFERENCES `personality`(`personality_user_id`)
 );
 
 SHOW TABLES;

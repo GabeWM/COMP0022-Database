@@ -1,4 +1,4 @@
-personality_id,assigned_metric,assigned_condition,openness,agreeableness,emotional_stability,conscientiousness,extraversion,is_personalized,enjoy_watching
+personality_user_id,assigned_metric,assigned_condition,openness,agreeableness,emotional_stability,conscientiousness,extraversion,is_personalized,enjoy_watching
 8e7cebf9a234c064b75016249f2ac65e, serendipity, high,5.0,2.0,3.0,2.5,6.5,4,4
 77c7d756a093150d4377720abeaeef76, all, default,7.0,4.0,6.0,5.5,4.0,2,3
 b7e8a92987a530cc368719a0e60e26a3, serendipity, medium,4.0,3.0,4.5,2.0,2.5,2,2
