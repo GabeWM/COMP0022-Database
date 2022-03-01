@@ -1,0 +1,49 @@
+USE `comp0022_database`;
+
+/*
+LOAD DATA INFILE 'movies_table.csv' 
+INTO TABLE movies 
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+DESCRIBE `movies`;
+
+LOAD DATA INFILE 'personality_table.csv' 
+INTO TABLE personality
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+DESCRIBE `personality`;
+*/
+
+
+LOAD DATA INFILE 'test_table.csv' 
+INTO TABLE ratings
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+DESCRIBE `ratings`;
+
+LOAD DATA INFILE 'tags_table.csv' 
+INTO TABLE tags
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+DESCRIBE `tags`;
+
+LOAD DATA INFILE 'predictions_table.csv' 
+INTO TABLE predictions
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+DESCRIBE `predictions`;

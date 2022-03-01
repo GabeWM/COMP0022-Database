@@ -22,14 +22,13 @@ pd.set_option('display.max_columns', None)
 #tmdb_id column has duplicates
 links_table = pd.read_csv("data\\original_data\\ml-latest-small\\links.csv") 
 
-#titles,year have duplicates
-#year has null values
+#titles,year,imdb_id have duplicates
+#year,imdb_id has null values
+#deathnote year wrong
 movies_table = pd.read_csv("data\\original_data\\ml-latest-small\\movies.csv")
-movies_table[['title', 'year']] = movies_table['title'].str.rsplit(" ", n=1, expand=True)
-movies_table['year'] = movies_table['year'].str.replace('(', '')
-movies_table['year'] = movies_table['year'].str.replace(')', '')
 
 genres = {"action": [], "adventure": [], "animation": [], "children": [], "comedy": [], "crime": [], "documentary": [], "drama": [], "fantasy": [], "film-noir": [], "horror": [], "musical": [], "mystery": [], "romance": [], "sci-fi": [], "thriller": [], "war": [], "western": []}
+title_and_year = {"title": [], "year": []}
 keys = list(genres.keys())         
 
 for row in movies_table['genres'].str.rsplit("|"):
@@ -47,6 +46,25 @@ for key in genres:
 
 movies_table.drop('genres', axis=1, inplace=True)
 
+for row in movies_table['title']:
+    if "(" in row:
+        temp = row.rsplit(" ", maxsplit=1)
+        temp[1] = temp[1].replace('(', '')
+        temp[1] = temp[1].replace(')', '')
+        title_and_year['title'].append(temp[0])
+        title_and_year['year'].append(temp[1])
+    else:
+        title_and_year['title'].append(row)
+        title_and_year['year'].append("")
+
+movies_table.drop('title', axis=1, inplace=True)
+
+for key in title_and_year:
+    title_and_year[key] = numpy.array(title_and_year[key])
+
+for key in title_and_year:
+    movies_table[key] = title_and_year[key]
+
 movies_table = pd.merge(movies_table, links_table, on=['movieId','movieId'])
 
 movies_table.rename(columns={'movieId': 'movie_id', 'imdbId': 'imdb_id', 'tmdbId': 'tmdb_id'}, inplace=True)
@@ -54,7 +72,8 @@ movies_table = movies_table[['movie_id', 'title', 'year', 'imdb_id', 'tmdb_id', 
        'children', 'comedy', 'crime', 'documentary', 'drama', 'fantasy',
        'film-noir', 'horror', 'musical', 'mystery', 'romance', 'sci-fi',
        'thriller', 'war', 'western']]
-#movies_table.to_csv('movies_table.csv', index=False, encoding='utf-8')
+movies_table = movies_table.replace(r'^\s*$', numpy.nan, regex=True)
+#movies_table.to_csv('movies_table.csv', index=False, encoding='utf-8', na_rep='NULL')
 
 ############################################ PERSONALITY TABLE/PREDICTIONS TABLE #############################################
 
@@ -74,7 +93,7 @@ personality_table = personality_table.join(personality_table_original["enjoy_wat
 personality_table.rename(columns={'userid': 'personality_id', 'assigned metric': 'assigned_metric', 'assigned condition': 'assigned_condition'}, inplace=True)
 personality_table = personality_table[['personality_id', 'assigned_metric', 'assigned_condition', 'openness', 'agreeableness',
                                        'emotional_stability', 'conscientiousness', 'extraversion', 'is_personalized', 'enjoy_watching']]
-#personality_table.to_csv('personality_table.csv', index=False, encoding='utf-8')
+personality_table.to_csv('personality_table.csv', index=False, encoding='utf-8', na_rep='NULL')
 
 #No null values
 #No duplicates
@@ -96,7 +115,7 @@ for key in predictions:
 
 predictions_table = pd.DataFrame(predictions) 
 
-#predictions_table.to_csv('predictions_table.csv', index=False, encoding='utf-8')
+#predictions_table.to_csv('predictions_table.csv', index=False, encoding='utf-8', na_rep='NULL')
 
 ############################################ RATINGS TABLE #############################################
 
@@ -105,7 +124,7 @@ predictions_table = pd.DataFrame(predictions)
 ratings_table = pd.read_csv("data\\original_data\\ml-latest-small\\ratings1.csv")
 ratings_table.columns = ratings_table.columns.str.strip()
 
-ratings_table['timestamp'] = ratings_table['timestamp'].apply(lambda x: datetime.datetime.fromtimestamp(x).strftime('%c'))
+ratings_table['timestamp'] = ratings_table['timestamp'].apply(lambda x: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
 
 ratings_table['personality_id'] = numpy.nan
 
@@ -130,11 +149,11 @@ for key in ratings_dict:
     ratings_dict[key] = numpy.array(ratings_dict[key])
 
 ratings_table_append = pd.DataFrame(ratings_dict)
-ratings_table_append['timestamp'] = ratings_table_append['timestamp'].apply(lambda x: datetime.datetime.strptime(x.strip(), '%Y-%m-%d %H:%M:%S').strftime('%c'))
+ratings_table_append['timestamp'] = ratings_table_append['timestamp'].apply(lambda x: datetime.datetime.strptime(x.strip(), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S'))
 ratings_table = ratings_table.append(ratings_table_append, ignore_index=True)
 
 ratings_table.rename(columns={'userId': 'user_id', 'movieId': 'movie_id'}, inplace=True)
-ratings_table.to_csv('ratings_table.csv', index=False, encoding='utf-8')
+#ratings_table.to_csv('ratings_table.csv', index=False, encoding='utf-8', na_rep='NULL')
 
 ############################################ TAGS TABLE #############################################
 
@@ -142,8 +161,8 @@ ratings_table.to_csv('ratings_table.csv', index=False, encoding='utf-8')
 #No duplicates
 tags_table = pd.read_csv("data\\original_data\\ml-latest-small\\tags.csv")
 
-tags_table['timestamp'] = tags_table['timestamp'].apply(lambda x: datetime.datetime.fromtimestamp(x).strftime('%c'))
+tags_table['timestamp'] = tags_table['timestamp'].apply(lambda x: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
 
 #Does not give index label
 tags_table.rename(columns={'userId': 'user_id', 'movieId': 'movie_id'}, inplace=True)
-tags_table.to_csv('tags_table.csv', index=True, encoding='utf-8')
+#tags_table.to_csv('tags_table.csv', index=True, encoding='utf-8', na_rep='NULL')
