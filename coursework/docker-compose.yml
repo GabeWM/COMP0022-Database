@@ -1,0 +1,41 @@
+# docker-compose build 
+# docker-compose up
+
+#IF THE ABOVE IS NOT WORKING DELETE EVERY IMAGE AND VOLUME AND TRY AGAIN (it took me 2 hours to figure this out)
+
+services:
+  php-apache-environment:
+    container_name: php-apache
+    image: php:8.0-apache
+    depends_on:
+      - db
+    volumes:
+      - ./php/src/:/var/www/html/
+    ports:
+      - 8000:80
+    build:
+      context: ./php/
+      dockerfile: Dockerfile
+  
+  db:
+    container_name: db
+    image: mysql
+    restart: always
+    command: --secure-file-priv=""
+    volumes:
+      - ./mysql-dump/:/docker-entrypoint-initdb.d
+      #- ./storage:/var/lib/mysql (I had issues with this Kavin did not I will leave commented out. This would allow for persistant data)
+      - ./data/:/home/data
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8090:80"
+    environment:
+      PMA_HOSTS: db

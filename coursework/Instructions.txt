@@ -1,0 +1,9 @@
+Change the directory to where this folder is located in the pandas_script.py file in the mysql-dump folder.
+
+In the terminal use "docker-compose up" to run
+
+open a browser and go to "localhost:8090"
+
+enter "root" as the username and "password" as the password
+
+if there is an error when trying to login, wait a bit and then try again.
