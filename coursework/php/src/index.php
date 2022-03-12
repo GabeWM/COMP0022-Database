@@ -14,6 +14,64 @@
     include("connect.php");
 ?>
 
+<script>
+    function case1() {
+        hideCases();
+        document.getElementById("case1_container").classList.remove("d-none");
+        document.getElementById("case1_hide2").classList.remove("d-none");
+        document.getElementById("case1_hide3").classList.remove("d-none");
+    }
+
+    function case2() {
+        hideCases();
+        document.getElementById("case2_container").classList.remove("d-none");
+        document.getElementById("case2_hide2").classList.remove("d-none");
+        document.getElementById("case2_hide3").classList.remove("d-none");
+    }
+
+    function case3() {
+        hideCases();
+        document.getElementById("case3_container").classList.remove("d-none");
+        document.getElementById("case3_hide2").classList.remove("d-none");
+        document.getElementById("case3_hide3").classList.remove("d-none");
+    }
+
+    function case4() {
+        hideCases();
+        document.getElementById("case4_container").classList.remove("d-none");
+        document.getElementById("case4_hide2").classList.remove("d-none");
+        document.getElementById("case4_hide3").classList.remove("d-none");
+    }
+
+    function case5() {
+        hideCases();
+        document.getElementById("case5_container").classList.remove("d-none");
+        document.getElementById("case5_hide2").classList.remove("d-none");
+        document.getElementById("case5_hide3").classList.remove("d-none");
+    }
+
+    function case6() {
+        hideCases();
+        document.getElementById("case6_container").classList.remove("d-none");
+        document.getElementById("case6_hide2").classList.remove("d-none");
+        document.getElementById("case6_hide3").classList.remove("d-none");
+    }
+
+    function hideCases() {
+        document.getElementById("case_container").classList.add("d-none");
+    }
+
+    function GoBackWithRefresh(event) {
+        if ('referrer' in document) {
+            window.location = document.referrer;
+            /* OR */
+            //location.replace(document.referrer);
+        } else {
+            window.history.back();
+        }
+    }
+</script>
+
 <!DOCTYPE html>
     <html>
         <!-- Latest compiled and minified CSS -->
@@ -26,8 +84,34 @@
             <p class="text-center">for marketing professionals</p>
         </head>
         <body>
-            <div class="container">
-                <form id="hide1" action="case1.php" method="post">
+            <div id="case_container" class="container">
+                    <div class="row ">
+                        <button id="case1_button" class="btn btn-success btn-lg" type="button" onclick="case1()">Case 1</button>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <button id="case2_button" class="btn btn-success btn-lg" type="button" onclick="case2()">Case 2</button>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <button id="case3_button" class="btn btn-success btn-lg" type="button" onclick="case3()">Case 3</button>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <button id="case4_button" class="btn btn-success btn-lg" type="button" onclick="case4()">Case 4</button>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <button id="case5_button" class="btn btn-success btn-lg" type="button" onclick="case5()">Case 5</button>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <button id="case6_button" class="btn btn-success btn-lg" type="button" onclick="case6()">Case 6</button>
+                    </div>
+                    <br>
+            </div>
+            <div id="case1_container" class="container d-none">
+                <form id="case1_hide1" action="case1.php" method="post">
                     <div class="row">
                         <div class="col">
                             <div class="mb-4">
@@ -130,10 +214,75 @@
                     <br>
                     <div class="row">
                         <div class="d-grid gap-2 col-6 mx-auto">
-                            <input id="hide2" class="btn btn-primary btn-lg" type="submit" value="Submit">
+                            <input id="case1_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
                         </div>
                         <div class="d-grid gap-2 col-6 mx-auto">
-                            <input id="hide3" class="btn btn-secondary btn-lg" type="reset" value="Reset">
+                            <input id="case1_hide3" class="btn btn-secondary btn-lg d-none" type="reset" value="Reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--CASE 2 UI HERE-->
+            <div id="case2_container" class="container d-none">
+                <form id="case2_hide1" action="case2.php" method="post">
+                    <div class="row">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case2_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case2_hide3" class="btn btn-secondary btn-lg d-none" type="reset" value="Reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--CASE 3 UI HERE-->
+            <div id="case3_container" class="container d-none">
+                <form id="case3_hide1" action="case3.php" method="post">
+                    <div class="row">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case3_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case3_hide3" class="btn btn-secondary btn-lg d-none" type="reset" value="Reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--CASE 4 UI HERE-->
+            <div id="case4_container" class="container d-none">
+                <form id="case4_hide1" action="case4.php" method="post">
+                    <div class="row">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case4_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case4_hide3" class="btn btn-secondary btn-lg d-none" type="reset" value="Reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--CASE 5 UI HERE-->
+            <div id="case5_container" class="container d-none">
+                <form id="case5_hide1" action="case5.php" method="post">
+                    <div class="row">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case5_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case5_hide3" class="btn btn-secondary btn-lg d-none" type="reset" value="Reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--CASE 6 UI HERE-->
+            <div id="case6_container" class="container d-none">
+                <form id="case6_hide1" action="case6.php" method="post">
+                    <div class="row">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case6_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <input id="case6_hide3" class="btn btn-secondary btn-lg d-none" type="reset" value="Reset">
                         </div>
                     </div>
                 </form>
