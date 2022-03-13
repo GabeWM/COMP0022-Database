@@ -86,27 +86,27 @@
         <body>
             <div id="case_container" class="container">
                     <div class="row ">
-                        <button id="case1_button" class="btn btn-success btn-lg" type="button" onclick="case1()">Case 1</button>
+                        <button id="case1_button" class="btn btn-success btn-lg" type="button" onclick="case1()">Case 1: Browsing visual lists of films</button>
                     </div>
                     <br>
                     <div class="row">
-                        <button id="case2_button" class="btn btn-success btn-lg" type="button" onclick="case2()">Case 2</button>
+                        <button id="case2_button" class="btn btn-success btn-lg" type="button" onclick="case2()">Case 2: Searching for a film to obtain a report on the viewer reaction to it</button>
                     </div>
                     <br>
                     <div class="row">
-                        <button id="case3_button" class="btn btn-success btn-lg" type="button" onclick="case3()">Case 3</button>
+                        <button id="case3_button" class="btn btn-success btn-lg" type="button" onclick="case3()">Case 3: Reporting which are the most popular and polarising kinds of movies</button>
                     </div>
                     <br>
                     <div class="row">
-                        <button id="case4_button" class="btn btn-success btn-lg" type="button" onclick="case4()">Case 4</button>
+                        <button id="case4_button" class="btn btn-success btn-lg" type="button" onclick="case4()">Case 4: Predicting how a film will be rated after its release from the reactions of a small preview audience</button>
                     </div>
                     <br>
                     <div class="row">
-                        <button id="case5_button" class="btn btn-success btn-lg" type="button" onclick="case5()">Case 5</button>
+                        <button id="case5_button" class="btn btn-success btn-lg" type="button" onclick="case5()">Case 5: Predicting the personality traits of viewers of a film given a rating</button>
                     </div>
                     <br>
                     <div class="row">
-                        <button id="case6_button" class="btn btn-success btn-lg" type="button" onclick="case6()">Case 6</button>
+                        <button id="case6_button" class="btn btn-success btn-lg" type="button" onclick="case6()">Case 6: Predicting the personality traits of viewers of a film who will give it a high rating</button>
                     </div>
                     <br>
             </div>
@@ -137,8 +137,8 @@
                         </div>
                             <div class="col">
                                 <label for="case1_and_or" class="form-label">Select "And" or "Or" for Genres</label>
-                                <select class="form-select" id="case1_and_or">
-                                    <option selected>Nothing Selected (default Or)</option>
+                                <select class="form-select" id="case1_and_or" required>
+                                    <option value="">Nothing Selected</option>
                                     <option value="or">Or</option>
                                     <option value="and">And</option>
                                 </select>
@@ -271,6 +271,20 @@
             <!--CASE 5 UI HERE-->
             <div id="case5_container" class="container d-none">
                 <form id="case5_hide1" action="case5.php" method="post">
+                    <label for="case5_rating" class="form-label">Select Rating</label>
+                    <select class="form-select" id="case5_rating" name='case5_rating' required>
+                        <option value="">Nothing Selected</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <br>
+                    <div class="mb-3">
+                            <label for="case5_movie_id" class="form-label">Movie Id:</label>
+                            <input type="text" class="form-control" id="case5_movie_id" placeholder="Enter a Movie Id" name='case5_movie_id' required> 
+                    </div>  
                     <div class="row">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <input id="case5_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">

@@ -194,14 +194,15 @@
         $result = mysqli_query($connection, $query);
         // $row = mysqli_fetch_array($result);
         $result_count = mysqli_num_rows($result);
-            
+          
+        echo '<div class="container">
+                <div class="row">
+                    <button class="btn btn-warning btn-lg" onClick="GoBackWithRefresh();return false;">Go To Front Page</button>
+                </div>
+              </div>
+              <br>';
+
         if ($result_count > 0) {
-            echo '<div class="container">
-            <div class="row">
-                <button class="btn btn-warning btn-lg" onClick="GoBackWithRefresh();return false;">Go To Front Page</button>
-            </div>
-            </div>
-            <br>';
             echo '<div class="container">';
             echo "<p>Total number of records: $result_count<p>";
             echo '<table class="table table-center table-bordered" border="1">';
