@@ -3,7 +3,7 @@
 $host = "db";
 $user = "root";
 $pass = "password";
-$mydatabase = "comp0022_database";
+$my_database = "comp0022_database";
 
 
 // Create connection

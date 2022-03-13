@@ -1,5 +1,5 @@
 <?php
-    include ("connect.php");
+    require("connect.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +8,18 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
+    <script>
+            function GoBackWithRefresh(event) {
+            if ('referrer' in document) {
+                window.location = document.referrer;
+                /* OR */
+                //location.replace(document.referrer);
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+
     <head>
         <h1 class="text-center">Movie Industry Database</h1>
         <p class="text-center">for marketing professionals</p>
