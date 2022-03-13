@@ -26,6 +26,15 @@
     </head>
 
     <?php
+/*
+        function console_log($output, $with_script_tags = true) {
+            $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
+            if ($with_script_tags) {
+                $js_code = '<script>' . $js_code . '</script>';
+            }
+            echo $js_code;
+        }
+    */
 
         function test_input($data) {
             $data = trim($data);
@@ -34,9 +43,12 @@
             echo $data;
             return $data;
         }
-
+        
         $title = test_input($_POST['title']);
-        $genre = $_POST['genre'];
+        $genre = array();
+        if (isset($_POST['genre'])) {
+            $genre = $_POST['genre'];
+        }
         $tmdb_id = $_POST['tmdb_id'];
         $imdb_id = $_POST['imdb_id'];
         $start_year = $_POST['start_year'];
@@ -113,7 +125,6 @@
 
 
         if ($title_genre_check == 0 AND $id_check == 0 AND $year_check == 0) {
-            echo "Displaying all results";
             $query = "SELECT * FROM ml_movies";
         } else if ($title_genre_check == 0 AND $id_check == 0 AND $year_check == 1) {
             $query = "SELECT * FROM ml_movies WHERE year BETWEEN $start_year AND $end_year";
