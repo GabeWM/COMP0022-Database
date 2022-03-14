@@ -32,7 +32,7 @@
     $movie_id = $_POST['case5_movie_id'];
     $rating = $_POST['case5_rating'];
 
-    $query = "SELECT personality_ratings.rating, AVG(personality.openness), AVG(personality.agreeableness), AVG(personality.emotional_stability), AVG(personality.conscientiousness), AVG(personality.extraversion) FROM personality_ratings LEFT JOIN personality ON personality_ratings.personality_user_id = personality.personality_user_id WHERE personality_movie_id = $movie_id AND personality_ratings.rating = $rating GROUP BY personality_ratings.rating ORDER BY personality_ratings.rating;";
+    $query = "SELECT personality_ratings.rating, AVG(personality.openness), AVG(personality.agreeableness), AVG(personality.emotional_stability), AVG(personality.conscientiousness), AVG(personality.extraversion) FROM personality_ratings LEFT JOIN personality ON personality_ratings.personality_user_id = personality.personality_user_id WHERE movie_id = $movie_id AND personality_ratings.rating = $rating GROUP BY personality_ratings.rating ORDER BY personality_ratings.rating;";
     $result = mysqli_query($connection, $query);
     $result_count = mysqli_num_rows($result);
 

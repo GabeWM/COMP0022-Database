@@ -36,7 +36,7 @@ DROP TABLE `movies`;
 */
 
 CREATE TABLE IF NOT EXISTS `ml_movies` (
-    `ml_movie_id` INT UNIQUE NOT NULL, 
+    `movie_id` INT UNIQUE NOT NULL, 
     `title` VARCHAR(200) NOT NULL, 
     `year` YEAR, 
     `tmdb_id` INT, 
@@ -59,26 +59,26 @@ CREATE TABLE IF NOT EXISTS `ml_movies` (
     `thriller` TINYINT(1) NOT NULL, 
     `war` TINYINT(1) NOT NULL, 
     `western` TINYINT(1) NOT NULL, 
-    PRIMARY KEY(`ml_movie_id`)
+    PRIMARY KEY(`movie_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `ml_ratings` (
     `ml_user_id` SMALLINT NOT NULL,
-    `ml_movie_id` INT NOT NULL,
+    `movie_id` INT NOT NULL,
     `rating` TINYINT NOT NULL,
     `timestamp` TIMESTAMP NOT NULL,
-    PRIMARY KEY (`ml_user_id`, `ml_movie_id`),
-    FOREIGN KEY (`ml_movie_id`) REFERENCES `ml_movies`(`ml_movie_id`)
+    PRIMARY KEY (`ml_user_id`, `movie_id`),
+    FOREIGN KEY (`movie_id`) REFERENCES `ml_movies`(`movie_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `ml_tags` (
     `index` INT UNIQUE NOT NULL,
     `ml_user_id` SMALLINT NOT NULL,
-    `ml_movie_id` INT NOT NULL,
+    `movie_id` INT NOT NULL,
     `tag` VARCHAR(200) NOT NULL,
     `timestamp` TIMESTAMP NOT NULL,
     PRIMARY KEY (`index`),
-    FOREIGN KEY (`ml_movie_id`) REFERENCES `ml_movies`(`ml_movie_id`),
+    FOREIGN KEY (`movie_id`) REFERENCES `ml_movies`(`movie_id`),
     FOREIGN KEY (`ml_user_id`) REFERENCES `ml_ratings`(`ml_user_id`)
 );
 
@@ -98,18 +98,18 @@ CREATE TABLE IF NOT EXISTS `personality` (
 
 CREATE TABLE IF NOT EXISTS `personality_ratings` (
     `personality_user_id` VARCHAR(32) NOT NULL,
-    `personality_movie_id` INT NOT NULL,
+    `movie_id` INT NOT NULL,
     `rating` TINYINT NOT NULL,
     `timestamp` TIMESTAMP NOT NULL,
-    PRIMARY KEY (`personality_user_id`, `personality_movie_id`),
+    PRIMARY KEY (`personality_user_id`, `movie_id`),
     FOREIGN KEY (`personality_user_id`) REFERENCES `personality` (`personality_user_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `personality_predictions` (
     `personality_user_id` VARCHAR(32) NOT NULL,
-    `personality_movie_id` INT NOT NULL,
+    `movie_id` INT NOT NULL,
     `predictions` DECIMAL(12,11) NOT NULL,
-    PRIMARY KEY (`personality_user_id`, `personality_movie_id`),
+    PRIMARY KEY (`personality_user_id`, `movie_id`),
     FOREIGN KEY (`personality_user_id`) REFERENCES `personality`(`personality_user_id`)
 );
 
