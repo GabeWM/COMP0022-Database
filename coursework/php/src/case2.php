@@ -112,7 +112,7 @@
             if($general_row['fantasy'] == 1) {
                 array_push($result_genre, 'Fantasy');
             }
-            if($general_row['film-noir'] == 1) {
+            if($general_row['film_noir'] == 1) {
                 array_push($result_genre, 'Film-Noir');
             }
             if($general_row['horror'] == 1) {
@@ -127,7 +127,7 @@
             if($general_row['romance'] == 1) {
                 array_push($result_genre, 'Romance');
             }
-            if($general_row['sci-fi'] == 1) {
+            if($general_row['sci_fi'] == 1) {
                 array_push($result_genre, 'Sci-Fi');
             }
             if($general_row['thriller'] == 1) {
@@ -142,7 +142,7 @@
 
             $genre_type_print = implode(', ', $result_genre);
 
-            if ($$general_row['year'] == NULL) {
+            if ($general_row['year'] == NULL) {
                 $general_row['year'] = 'N/A';
             }
             if ($general_row['tmdb_id'] == NULL) {
