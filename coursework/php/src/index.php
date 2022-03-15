@@ -140,7 +140,11 @@
                                     <option value="1"selected>Movie Title (A -> Z)</option>
                                     <option value="2">Movie Title (Z -> A)</option>
                                     <option value="3">Year (Oldest to Most Recent)</option>
-                                    <option value="4">Year (Most Recent to Oldest)</option> 
+                                    <option value="4">Year (Most Recent to Oldest)</option>
+                                    <option value="5">Tmdb_id (Lowest to Highest)</option> 
+                                    <option value="6">Tmdb_id (Highest to Lowest)</option> 
+                                    <option value="7">Imdb_id (Lowest to Highest)</option> 
+                                    <option value="8">Imdb_id (Highest to Lowest)</option>  
                                 </select>
                             </div>
                         </div>
