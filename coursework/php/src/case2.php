@@ -181,24 +181,4 @@
         echo '</tbody> </table></div>';         
     }
 
-    //         $info = mysqli_fetch_array($result);
-    //         echo '<div class="container">Ratings Details<br><table class="table table-center table-bordered" border="1" style="table-layout: fixed ; width: 100%; text-align: center;">';
-    //         echo '<thead> <tr> <th scope="col">Total Number of Ratings</th> <th scope="col">Average Ratings</th> </tr> </thead> <tbody>';
-    //         echo '<tr> <td>' . $info['no_of_ratings'] . '</td><td>' . $info['avg_rating']. '</td></tr>';
-    //         echo '</tbody> </table></div>';
-
-
-    //         echo '<div class="container">Ratings Breakdown<br><table class="table table-center table-bordered" border="1" style="table-layout: fixed ; width: 100%; text-align: center;">';
-    //         echo '<thead> <tr><th scope="col">Rating</th> <th scope="col">5</th> <th scope="col">4</th> <th scope="col">3</th> <th scope="col">2</th> <th scope="col">1</th></tr> </thead> <tbody>';
-    //         echo '<tr> <td>Quantity</td><td>' . $row5['movie_rating_5'] . '</td><td>' . $row4['movie_rating_4']. '</td><td>' . $row3['movie_rating_3']. '</td><td>' . $row2['movie_rating_2']. '</td> <td>' .$row1['movie_rating_1']. '</td></tr>';
-    //         echo '</tbody> </table></div>';
-
-    //     } else {
-    //         echo "<div class='container'><h3>No results found, please try again. </h3></div>";
-    //     }
-   
-
-    // } else {
-    //     echo "<div class='container'><h3>No results found, please try again. </h3></div>";
-    // }
 ?>
