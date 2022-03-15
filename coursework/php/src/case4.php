@@ -26,6 +26,11 @@
         <p class="text-center">for marketing professionals</p>
     </head>
 
+/*
+Predicting how a film will be rated after its release from the reactions of a small preview audience, i.e., taking a sub-set of
+the viewers for a particular movie in the data set and treating them as though they were people at a preview, is it possible
+to predict the aggregate ratings of that film by all viewers from just that sub-set?
+*/
 <?php
     require("connect.php");
 
