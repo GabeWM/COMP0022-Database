@@ -198,12 +198,20 @@
                 $query .= " ORDER BY title DESC";
             } else if ($sort==3) {
                 $query .= " ORDER BY year";
-            } else if ($sort==2) {
+            } else if ($sort==4) {
                 $query .= " ORDER BY year DESC";
+            } else if ($sort==5) {
+                $query .= " ORDER BY tmdb_id";
+            } else if ($sort==6) {
+                $query .= " ORDER BY tmdb_id DESC";
+            } else if ($sort==7) {
+                $query .= " ORDER BY imdb_id";
+            } else if ($sort==8) {
+                $query .= " ORDER BY imdb_id DESC";
             }
         }
 
-        echo $query;
+        // echo $query;
         $result = mysqli_query($connection, $query);
         // $row = mysqli_fetch_array($result);
         $result_count = mysqli_num_rows($result);
