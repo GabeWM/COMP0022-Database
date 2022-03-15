@@ -426,7 +426,7 @@
                 if($row['fantasy'] == 1) {
                     array_push($result_genre, 'Fantasy');
                 }
-                if($row['film-noir'] == 1) {
+                if($row['film_noir'] == 1) {
                     array_push($result_genre, 'Film-Noir');
                 }
                 if($row['horror'] == 1) {
@@ -441,7 +441,7 @@
                 if($row['romance'] == 1) {
                     array_push($result_genre, 'Romance');
                 }
-                if($row['sci-fi'] == 1) {
+                if($row['sci_fi'] == 1) {
                     array_push($result_genre, 'Sci-Fi');
                 }
                 if($row['thriller'] == 1) {

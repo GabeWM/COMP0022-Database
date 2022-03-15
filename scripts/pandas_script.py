@@ -30,9 +30,9 @@ genres = {"action": [], "adventure": [], "animation": [], "children": [], "comed
 title_and_year = {"title": [], "year": []}
 keys = list(genres.keys())         
 
-for row in movies_table['genres'].str.rsplit("|"):
+for row in movies_table['genres'].str.lower().str.rsplit("|"):
     for key in keys:
-        if key.capitalize() in row:
+        if key.lower() in row:
             genres[key].append(1)
         else:
             genres[key].append(0)
@@ -72,7 +72,7 @@ movies_table = movies_table[['ml_movie_id', 'title', 'year', 'imdb_id', 'tmdb_id
        'film-noir', 'horror', 'musical', 'mystery', 'romance', 'sci-fi',
        'thriller', 'war', 'western']]
 movies_table = movies_table.replace(r'^\s*$', numpy.nan, regex=True)
-#movies_table.to_csv('ml_movies_table.csv', index=False, encoding='utf-8', na_rep='NULL')
+movies_table.to_csv('ml_movies_table.csv', index=False, encoding='utf-8', na_rep='NULL')
 
 ############################################ PERSONALITY TABLE/PERSONALITY_PREDICTIONS TABLE #############################################
 
@@ -133,7 +133,7 @@ personality_ratings_table['tstamp'] = personality_ratings_table['tstamp'].apply(
 personality_ratings_table.rename(columns={'useri': 'personality_user_id', 'movie_id': 'personality_movie_id', 'tstamp' : 'timestamp'}, inplace=True)
 personality_ratings_table = personality_ratings_table.drop_duplicates()
 
-personality_ratings_table.to_csv('personality_ratings_table.csv', index=False, encoding='utf-8', na_rep='NULL')
+#personality_ratings_table.to_csv('personality_ratings_table.csv', index=False, encoding='utf-8', na_rep='NULL')
 
 ############################################ ML_TAGS TABLE #############################################
 

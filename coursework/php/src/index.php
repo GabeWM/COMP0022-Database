@@ -193,7 +193,7 @@
                                     <label class="form-check-label" for="genre9">Fantasy</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="genre10" name="genre[]" value="film-noir">
+                                    <input class="form-check-input" type="checkbox" id="genre10" name="genre[]" value="film_noir">
                                     <label class="form-check-label" for="genre10">Film-Noir</label>
                                 </div>
                                 <div class="form-check">
@@ -213,7 +213,7 @@
                                     <label class="form-check-label" for="genre14">Romance</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="genre15" name="genre[]" value="sci-fi">
+                                    <input class="form-check-input" type="checkbox" id="genre15" name="genre[]" value="sci_fi">
                                     <label class="form-check-label" for="genre15">Sci-fi</label>
                                 </div>
                                 <div class="form-check">
