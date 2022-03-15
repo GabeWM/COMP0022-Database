@@ -136,11 +136,12 @@
                             </div>
                         </div>
                             <div class="col">
-                                <label for="case1_and_or" class="form-label">Select "And" or "Or" for Genres</label>
-                                <select class="form-select" id="case1_and_or" required>
-                                    <option value="">Nothing Selected</option>
-                                    <option value="or">Or</option>
-                                    <option value="and">And</option>
+                                <label for="case1_sort" class="form-label">Sort By</label>
+                                <select class="form-select" id="case1_sort" name="sort">
+                                    <option value="1"selected>Movie Title (A -> Z)</option>
+                                    <option value="2">Movie Title (Z -> A)</option>
+                                    <option value="3">Year (Oldest to Most Recent)</option>
+                                    <option value="4">Year (Most Recent to Oldest)</option> 
                                 </select>
                                 <br>
                                 <div class="form-check">
@@ -232,6 +233,10 @@
             <!--CASE 2 UI HERE-->
             <div id="case2_container" class="container d-none">
                 <form id="case2_hide1" action="case2.php" method="post">
+                    <div class="mb-5">
+                        <label for="case5_movie_id" class="form-label">Movie Title:</label>
+                        <input type="text" class="form-control" id="case2" placeholder="Enter a Movie title" name='case2_title' required> 
+                    </div>
                     <div class="row">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <input id="case2_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">

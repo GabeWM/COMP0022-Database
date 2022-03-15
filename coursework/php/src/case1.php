@@ -43,7 +43,7 @@
             echo $data;
             return $data;
         }
-        
+       
         $title = test_input($_POST['title']);
         $genre = array();
         if (isset($_POST['genre'])) {
@@ -190,7 +190,20 @@
             $query = "SELECT * FROM ml_movies WHERE (1 IN ($genre_type)) AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
         } 
 
-        // echo $query;
+        if(isset($_POST['sort'])) {
+            $sort = $_POST['sort'];
+            if ($sort==1){
+                $query .= " ORDER BY title";
+            } else if ($sort==2) {
+                $query .= " ORDER BY title DESC";
+            } else if ($sort==3) {
+                $query .= " ORDER BY year";
+            } else if ($sort==2) {
+                $query .= " ORDER BY year DESC";
+            }
+        }
+
+        echo $query;
         $result = mysqli_query($connection, $query);
         // $row = mysqli_fetch_array($result);
         $result_count = mysqli_num_rows($result);
@@ -268,6 +281,24 @@
                 }
 
                 $genre_type_print = implode(', ', $result_genre);
+
+                if ($row['title'] == NULL) {
+                    $row['title'] = "N/A";
+                }
+                if ($row['year'] == NULL) {
+                    $row['year'] = "N/A";
+                }
+                if ($row['tmdb_id'] == NULL) {
+                    $row['tmdb_id'] = "N/A";
+                }
+                if ($row['imdb_id'] == NULL) {
+                    $row['imdb_id'] = "N/A";
+                }
+
+                if ($genre_type_print == "") {
+                    $genre_type_print = "N/A";
+                }
+
                 echo '<tr> <td>' . $row['title'] . '</td><td>' . $row['year']. '</td><td>' . $row['imdb_id']. '</td><td>' . $row['tmdb_id']. '</td> <td>' . $genre_type_print. '</td></tr>';
             }
             echo '</tbody> </table>';
