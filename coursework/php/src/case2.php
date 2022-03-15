@@ -142,6 +142,19 @@
 
             $genre_type_print = implode(', ', $result_genre);
 
+            if ($$general_row['year'] == NULL) {
+                $general_row['year'] = 'N/A';
+            }
+            if ($general_row['tmdb_id'] == NULL) {
+                $general_row['tmdb_id'] = 'N/A';
+            }
+            if ($general_row['imdb_id'] == NULL) {
+                $general_row['imdb_id'] = 'N/A';
+            }
+            if ($genre_type_print == '') {
+                $genre_type_print = 'N/A';
+            }
+
             echo '<tr> <td>' . $general_row['title'] . '</td> <td>' . $general_row['year'] . '</td> <td>' . $general_row['tmdb_id'] . '</td> <td>' . $general_row['imdb_id'] . '</td> <td>' . $genre_type_print . '</td> <td>' . $general_row['movie_tags'] . '</td> </tr>';   
         }
         echo '</tbody> </table></div>';         
