@@ -288,19 +288,9 @@
             <!--CASE 5 UI HERE-->
             <div id="case5_container" class="container d-none">
                 <form id="case5_hide1" action="case5.php" method="post">
-                    <label for="case5_rating" class="form-label">Select Rating</label>
-                    <select class="form-select" id="case5_rating" name='case5_rating' required>
-                        <option value="">Nothing Selected</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <br>
                     <div class="mb-3">
-                            <label for="case5_movie_id" class="form-label">Movie Id:</label>
-                            <input type="text" class="form-control" id="case5_movie_id" placeholder="Enter a Movie Id" name='case5_movie_id' required> 
+                            <label for="case5_title" class="form-label">Movie Title:</label>
+                            <input type="text" class="form-control" id="case5_title" placeholder="Enter a movie title" name='case5_title' required> 
                     </div>  
                     <div class="row">
                         <div class="d-grid gap-2 col-6 mx-auto">
