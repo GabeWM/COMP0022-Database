@@ -114,28 +114,27 @@
                 <form id="case1_hide1" action="case1.php" method="post">
                     <div class="row">
                         <div class="col">
-                            <div class="mb-5">
+                            <div class="mb-4">
                                 <label for="title" class="form-label">Title:</label>
                                 <input type="text" class="form-control" id="title" placeholder="Enter a title" name='title'> 
                             </div>   
-                            <div class="mb-5">                   
+                            <div class="mb-4">                   
                                 <label for="imdb_id" class="form-label">IMDB Id:</label>
                                 <input type="number" class="form-control" id="imdb_id" placeholder="Enter an IMDB Id" name='imdb_id'>                
                             </div>
-                            <div class="mb-5">   
+                            <div class="mb-4">   
                                 <label for="tmdb_id" class="form-label">TMDB Id:</label>
                                 <input type="number" class="form-control" id="tmdb_id" placeholder="Enter a TMDB Id" name='tmdb_id'>
                             </div>
-                            <div class="mb-5">   
+                            <div class="mb-4">   
                                 <label for="year_min" class="form-label">Year Released (From):</label>
                                 <input type="number" class="form-control" id="year_min" placeholder="Enter a year (Inclusive)" name='start_year' min=1900 max=2050>
                             </div>
-                            <div class="mb-5">   
+                            <div class="mb-4">   
                                 <label for="year_max" class="form-label">Year Released (To):</label>
                                 <input type="number" class="form-control" id="year_max" placeholder="Enter a year (Inclusive)" name='end_year' min=1950 max=2050>
                             </div>
-                        </div>
-                            <div class="col">
+                            <div class="mb-4">
                                 <label for="case1_sort" class="form-label">Sort By</label>
                                 <select class="form-select" id="case1_sort" name="sort">
                                     <option value="1"selected>Movie Title (A -> Z)</option>
@@ -147,6 +146,15 @@
                                     <option value="7">Imdb_id (Lowest to Highest)</option> 
                                     <option value="8">Imdb_id (Highest to Lowest)</option>  
                                 </select>
+                            </div>
+                        </div>
+                            <div class="col">
+                                    <label for="case1_and_or" class="form-label">Select "And" or "Or" for Genres</label>
+                                    <select class="form-select" id="case1_and_or" name="case1_and_or" required>
+                                        <option value="">Nothing Selected</option>
+                                        <option value="or">Or</option>
+                                        <option value="and">And</option>
+                                    </select>
                                 <br>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="genre1" name="genre[]" value="action">
@@ -185,7 +193,7 @@
                                     <label class="form-check-label" for="genre9">Fantasy</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="genre10" name="genre[]" value="film-noir">
+                                    <input class="form-check-input" type="checkbox" id="genre10" name="genre[]" value="film_noir">
                                     <label class="form-check-label" for="genre10">Film-Noir</label>
                                 </div>
                                 <div class="form-check">
@@ -205,7 +213,7 @@
                                     <label class="form-check-label" for="genre14">Romance</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="genre15" name="genre[]" value="sci-fi">
+                                    <input class="form-check-input" type="checkbox" id="genre15" name="genre[]" value="sci_fi">
                                     <label class="form-check-label" for="genre15">Sci-fi</label>
                                 </div>
                                 <div class="form-check">
