@@ -27,30 +27,45 @@
     </head>
 
 <?php
-    // echo $_POST['case2_title'];
+
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        // echo $data;
+        // $data = htmlspecialchars($data);
         return $data;
     }
 
     $keyword = test_input($_POST['case2_title']);
     
-    $query = "SELECT title, COUNT(rating) AS no_of_ratings, ROUND(AVG(rating),2) AS avg_rating FROM ml_movies INNER JOIN ml_ratings ON ml_movies.movie_id=ml_ratings.movie_id WHERE title='$keyword' GROUP BY ml_movies.movie_id ORDER BY ml_movies.movie_id";
-    $rating_5_count = "SELECT title, COUNT(rating) AS movie_rating_5 FROM ml_movies INNER JOIN ml_ratings ON ml_movies.movie_id=ml_ratings.movie_id WHERE ml_ratings.rating = 5 AND title='$keyword' GROUP BY ml_movies.movie_id ORDER BY ml_movies.movie_id";
-    $rating_4_count = "SELECT title, COUNT(rating) AS movie_rating_4 FROM ml_movies INNER JOIN ml_ratings ON ml_movies.movie_id=ml_ratings.movie_id WHERE ml_ratings.rating = 4 AND title='$keyword' GROUP BY ml_movies.movie_id ORDER BY ml_movies.movie_id";
-    $rating_3_count = "SELECT title, COUNT(rating) AS movie_rating_3 FROM ml_movies INNER JOIN ml_ratings ON ml_movies.movie_id=ml_ratings.movie_id WHERE ml_ratings.rating = 3 AND title='$keyword' GROUP BY ml_movies.movie_id ORDER BY ml_movies.movie_id";
-    $rating_2_count = "SELECT title, COUNT(rating) AS movie_rating_2 FROM ml_movies INNER JOIN ml_ratings ON ml_movies.movie_id=ml_ratings.movie_id WHERE ml_ratings.rating = 2 AND title='$keyword' GROUP BY ml_movies.movie_id ORDER BY ml_movies.movie_id";
-    $rating_1_count = "SELECT title, COUNT(rating) AS movie_rating_1 FROM ml_movies INNER JOIN ml_ratings ON ml_movies.movie_id=ml_ratings.movie_id WHERE ml_ratings.rating = 1 AND title='$keyword' GROUP BY ml_movies.movie_id ORDER BY ml_movies.movie_id";
-    $details = "SELECT *, T.tags FROM ml_movies AS M INNER JOIN (SELECT movie_id, GROUP_CONCAT(DISTINCT tag ORDER BY tag SEPARATOR ', ') AS tags FROM ml_tags GROUP BY movie_id) AS T WHERE M.movie_id=T.movie_id AND title='$keyword'";
-    $general_query = "SELECT * FROM ml_movies WHERE title=$keyword";
+    $general_n_tags = "SELECT *
+    FROM ml_movies m LEFT JOIN (SELECT movie_id, GROUP_CONCAT(DISTINCT tag) as movie_tags FROM ml_tags GROUP BY movie_id) AS t ON m.movie_id=t.movie_id
+    WHERE m.title='$keyword'";
 
-    // mysqli_multi_query($connection, $query);
-    $result = mysqli_query($connection, $query);
-    $result_count = mysqli_num_rows($result);
+    $ratings_detail = "SELECT m.title, 
+    SUM(CASE WHEN r.rating=5 THEN 1 ELSE 0 END) AS rating_5,
+    SUM(CASE WHEN r.rating=4 THEN 1 ELSE 0 END) AS rating_4,
+    SUM(CASE WHEN r.rating=3 THEN 1 ELSE 0 END) AS rating_3,
+    SUM(CASE WHEN r.rating=2 THEN 1 ELSE 0 END) AS rating_2,
+    SUM(CASE WHEN r.rating=5 THEN 1 ELSE 0 END) AS rating_1,
+    COUNT(r.rating) AS rating_quantity,
+    ROUND(AVG(r.rating),2) AS avg_rating
+    FROM ml_movies m LEFT JOIN ml_ratings r ON m.movie_id=r.movie_id
+    GROUP BY m.movie_id
+    HAVING m.title='$keyword'";
 
+    // $predictions = "SELECT m.movie_id, m.title, p.avg_pred, p.total_no_pred FROM ml_movies m LEFT JOIN 
+    // (SELECT movie_id, ROUND(AVG(predictions),2) AS avg_pred, COUNT(predictions) AS total_no_pred FROM personality_predictions GROUP BY movie_id ORDER BY movie_id) as p
+    // ON m.movie_id=p.movie_id
+    // HAVING m.title='$keyword'";
+
+    $ratings_breakdown = mysqli_query($connection, $ratings_detail);
+    $ratings_breakdown_count = mysqli_num_rows($ratings_breakdown);
+
+    $general_tag_info = mysqli_query($connection, $general_n_tags);
+    $general_tag_info_count = mysqli_num_rows($general_tag_info);
+
+    // $prediction_info = mysqli_query($connection, $predictions);
+    // $prediction_info_count = mysqli_num_rows($prediction_info);
 
     echo '<div class="container">
             <div class="row">
@@ -58,110 +73,119 @@
             </div>
           </div>
           <br>';
-    
 
-    if ($result_count > 0) {
-        
-        
-        $result5 = mysqli_query($connection, $rating_5_count);
-        $result4 = mysqli_query($connection, $rating_4_count);
-        $result3 = mysqli_query($connection, $rating_3_count);
-        $result2 = mysqli_query($connection, $rating_2_count);
-        $result1 = mysqli_query($connection, $rating_1_count);
-        $movie_details = mysqli_query($connection, $details);
-
-        $ratings_count = mysqli_num_rows($result5);
-        if ($ratings_count > 0) {
-            $row5 = mysqli_fetch_array($result5);
-            $row4 = mysqli_fetch_array($result4);
-            $row3 = mysqli_fetch_array($result3);
-            $row2 = mysqli_fetch_array($result2);
-            $row1 = mysqli_fetch_array($result1);
-            $row = mysqli_fetch_array($movie_details);
+    // general info and tags table
+    if ($general_tag_info_count>0) {
+        // echo $general_tag_info_count;
+        echo '<div class="container">Movie Details<br><table class="table table-center table-bordered" border="1" style=" table-layout: fixed ; width: 100%">';
+        echo '<thead> <tr> <th scope="col">Title</th> <th scope="col">Year</th> <th scope="col">Tmdb_id</th> <th scope="col">Imdb_id</th> <th scope="col">Genre</th> <th scope="col">Movie Tags</th> </tr> </thead> <tbody>';
+        while ($general_row = mysqli_fetch_array($general_tag_info)){
+            if ($general_row['movie_tags'] == NULL) {
+                $general_row['movie_tags'] = 'N/A';
+            }
 
             $result_genre = array();
-            if($row['action'] == 1) {
+            if($general_row['action'] == 1) {
                 array_push($result_genre, 'Action');
             }
-            if($row['adventure'] == 1) {
+            if($general_row['adventure'] == 1) {
                 array_push($result_genre, 'Adventure');
             }
-            if($row['animation'] == 1) {
+            if($general_row['animation'] == 1) {
                 array_push($result_genre, 'Animation');
             }
-            if($row['children'] == 1) {
+            if($general_row['children'] == 1) {
                 array_push($result_genre, 'Children');
             }
-            if($row['comedy'] == 1) {
+            if($general_row['comedy'] == 1) {
                 array_push($result_genre, 'Comedy');
             }
-            if($row['crime'] == 1) {
+            if($general_row['crime'] == 1) {
                 array_push($result_genre, 'Crime');
             }
-            if($row['documentary'] == 1) {
+            if($general_row['documentary'] == 1) {
                 array_push($result_genre, 'Documentary');
             }
-            if($row['drama'] == 1) {
+            if($general_row['drama'] == 1) {
                 array_push($result_genre, 'Drama');
             }
-            if($row['fantasy'] == 1) {
+            if($general_row['fantasy'] == 1) {
                 array_push($result_genre, 'Fantasy');
             }
-            if($row['film-noir'] == 1) {
+            if($general_row['film-noir'] == 1) {
                 array_push($result_genre, 'Film-Noir');
             }
-            if($row['horror'] == 1) {
+            if($general_row['horror'] == 1) {
                 array_push($result_genre, 'Horror');
             }
-            if($row['musical'] == 1) {
+            if($general_row['musical'] == 1) {
                 array_push($result_genre, 'Musical');
             }
-            if($row['mystery'] == 1) {
+            if($general_row['mystery'] == 1) {
                 array_push($result_genre, 'Mystery');
             }
-            if($row['romance'] == 1) {
+            if($general_row['romance'] == 1) {
                 array_push($result_genre, 'Romance');
             }
-            if($row['sci-fi'] == 1) {
+            if($general_row['sci-fi'] == 1) {
                 array_push($result_genre, 'Sci-Fi');
             }
-            if($row['thriller'] == 1) {
+            if($general_row['thriller'] == 1) {
                 array_push($result_genre, 'Thriller');
             }
-            if($row['war'] == 1) {
+            if($general_row['war'] == 1) {
                 array_push($result_genre, 'War');
             }
-            if($row['western'] == 1) {
+            if($general_row['western'] == 1) {
                 array_push($result_genre, 'Western');
             }
 
-        
-
-            echo "<div class='container'><h3 class='text-center'>".$row['title']."</h3><br>";
-
             $genre_type_print = implode(', ', $result_genre);
-            echo '<div class="container">Movie Details<table class="table table-center table-bordered" border="1">';
-            echo '<thead> <tr> <th scope="col">Title</th> <th scope="col">Year</th> <th scope="col">Imdb_id</th> <th scope="col">Tmdb_id</th> <th scope="col">Genre</th><th scope="col">Movie tags</th></tr> </thead> <tbody>';
-            echo '<tr> <td>' . $row['title'] . '</td><td>' . $row['year']. '</td><td>' . $row['imdb_id']. '</td><td>' . $row['tmdb_id']. '</td> <td>' . $genre_type_print. '</td> <td>' . $row['tags']. '</td> </tr> </tbody> </table></div>';
 
-            $info = mysqli_fetch_array($result);
-            echo '<div class="container">Ratings Details<br><table class="table table-center table-bordered" border="1" style="table-layout: fixed ; width: 100%; text-align: center;">';
-            echo '<thead> <tr> <th scope="col">Total Number of Ratings</th> <th scope="col">Average Ratings</th> </tr> </thead> <tbody>';
-            echo '<tr> <td>' . $info['no_of_ratings'] . '</td><td>' . $info['avg_rating']. '</td></tr>';
-            echo '</tbody> </table></div>';
-
-
-            echo '<div class="container">Ratings Breakdown<br><table class="table table-center table-bordered" border="1" style="table-layout: fixed ; width: 100%; text-align: center;">';
-            echo '<thead> <tr><th scope="col">Rating</th> <th scope="col">5</th> <th scope="col">4</th> <th scope="col">3</th> <th scope="col">2</th> <th scope="col">1</th></tr> </thead> <tbody>';
-            echo '<tr> <td>Quantity</td><td>' . $row5['movie_rating_5'] . '</td><td>' . $row4['movie_rating_4']. '</td><td>' . $row3['movie_rating_3']. '</td><td>' . $row2['movie_rating_2']. '</td> <td>' .$row1['movie_rating_1']. '</td></tr>';
-            echo '</tbody> </table></div>';
-
-        } else {
-            echo "<div class='container'><h3>No results found, please try again. </h3></div>";
+            echo '<tr> <td>' . $general_row['title'] . '</td> <td>' . $general_row['year'] . '</td> <td>' . $general_row['tmdb_id'] . '</td> <td>' . $general_row['imdb_id'] . '</td> <td>' . $genre_type_print . '</td> <td>' . $general_row['movie_tags'] . '</td> </tr>';   
         }
-   
-
+        echo '</tbody> </table></div>';         
     } else {
         echo "<div class='container'><h3>No results found, please try again. </h3></div>";
     }
+
+    // ratings table
+    if ($ratings_breakdown_count>0) {
+        // echo $ratings_breakdown_count;
+        echo '<div class="container">Ratings Details<br><table class="table table-center table-bordered" border="1" style=" table-layout: fixed ; width: 100%; text-align: center;">';
+        echo '<thead> <tr> <th scope="col">5</th> <th scope="col">4</th> <th scope="col">3</th> <th scope="col">2</th> <th scope="col">1</th> <th scope="col">Average Rating</th> <th scope="col">Total number of users who rated</th> </tr> </thead> <tbody>';
+        while ($ratings_row = mysqli_fetch_array($ratings_breakdown)){
+            if ($ratings_row['rating_quantity'] == 0) {
+                $ratings_row['rating_5'] = 'N/A';
+                $ratings_row['rating_4'] = 'N/A';
+                $ratings_row['rating_3'] = 'N/A';
+                $ratings_row['rating_2'] = 'N/A';
+                $ratings_row['rating_1'] = 'N/A';
+                $ratings_row['avg_rating'] = 'N/A';
+            }
+            echo '<tr> <td>' . $ratings_row['rating_5'] . '</td> <td>' . $ratings_row['rating_4'] . '</td> <td>' . $ratings_row['rating_3'] . '</td> <td>' . $ratings_row['rating_2'] . '</td> <td>' . $ratings_row['rating_1'] . '</td> <td>' . $ratings_row['avg_rating'] . '</td> <td>' . $ratings_row['rating_quantity'] . '</td> </tr>';   
+        }
+        echo '</tbody> </table></div>';         
+    }
+
+    //         $info = mysqli_fetch_array($result);
+    //         echo '<div class="container">Ratings Details<br><table class="table table-center table-bordered" border="1" style="table-layout: fixed ; width: 100%; text-align: center;">';
+    //         echo '<thead> <tr> <th scope="col">Total Number of Ratings</th> <th scope="col">Average Ratings</th> </tr> </thead> <tbody>';
+    //         echo '<tr> <td>' . $info['no_of_ratings'] . '</td><td>' . $info['avg_rating']. '</td></tr>';
+    //         echo '</tbody> </table></div>';
+
+
+    //         echo '<div class="container">Ratings Breakdown<br><table class="table table-center table-bordered" border="1" style="table-layout: fixed ; width: 100%; text-align: center;">';
+    //         echo '<thead> <tr><th scope="col">Rating</th> <th scope="col">5</th> <th scope="col">4</th> <th scope="col">3</th> <th scope="col">2</th> <th scope="col">1</th></tr> </thead> <tbody>';
+    //         echo '<tr> <td>Quantity</td><td>' . $row5['movie_rating_5'] . '</td><td>' . $row4['movie_rating_4']. '</td><td>' . $row3['movie_rating_3']. '</td><td>' . $row2['movie_rating_2']. '</td> <td>' .$row1['movie_rating_1']. '</td></tr>';
+    //         echo '</tbody> </table></div>';
+
+    //     } else {
+    //         echo "<div class='container'><h3>No results found, please try again. </h3></div>";
+    //     }
+   
+
+    // } else {
+    //     echo "<div class='container'><h3>No results found, please try again. </h3></div>";
+    // }
 ?>

@@ -215,6 +215,7 @@
         $result = mysqli_query($connection, $query);
         // $row = mysqli_fetch_array($result);
         $result_count = mysqli_num_rows($result);
+        
           
         echo '<div class="container">
                 <div class="row">
