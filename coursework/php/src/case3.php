@@ -27,7 +27,13 @@
     </head>
 
     <?php
-        function movie_variance($arr) {
+        $genre_counts = array();
+        $genre_variances = array();
+
+        function variance($arr) {
+            if (count($arr) == 0) {
+                return 0;
+            }
             $length = count($arr);
             if ($length == 0) {
               return array(0,0);
@@ -41,106 +47,248 @@
             return $variance;
         }
 
-        function genre_variance($arr) {
-            $length = count($arr);
-            if ($length == 0) {
-              return array(0,0);
+        $genres = ["action", "adventure", "animation","children","comedy", "crime", "documentary", "drama"
+        , "fantasy", "film_noir", "horror", "musical", "mystery", "romance", "sci-fi", "thriller", "war", "western"];
+
+        /*foreach ($genres as $genre) {
+            $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE ('{$genre}'=1))";
+            $movie_ratings = $connection->query($query);
+            if ($movie_ratings == FALSE) {
+                $genre_counts[] = 0;
+                $genre_variances[] = 0;
+                continue;
             }
-            $average = array_sum($arr)/$length;
-            $count = 0;
-            foreach ($arr as $v) {
-                $count += pow($average-$v, 2);
-            }
-            $variance = $count/$length;
-            return $variance;
-        }
-
-        $genres = array();
-        $genres[] = "action";
-        $genres[] = "adventure";
-        $genres[] = "animation";
-        $genres[] = "children";
-        $genres[] = "comedy";
-        $genres[] = "crime";
-        $genres[] = "documentary";
-        $genres[] = "drama";
-        $genres[] = "fantasy";
-        $genres[] = "film-noir";
-        $genres[] = "horror";
-        $genres[] = "musical";
-        $genres[] = "mystery";
-        $genres[] = "romance";
-        $genres[] = "sci-fi";
-        $genres[] = "thriller";
-        $genres[] = "war";
-        $genres[] = "western";
-          
-        $genre_counts = array();
-        $genre_variances = array();
-
-        $query = 'SELECT ml_movie_id FROM ml_movies WHERE (action=1)';
-        $movie_id = $connection->query($query);
-        $movie_id = $movie_id->fetch_all(MYSQLI_ASSOC);
-        $movie_counts = 0;
-        $movie_variances = array();
-        foreach ($movie_id as $v) {
-            $query = "SELECT rating FROM ml_ratings WHERE (ml_movie_id='{$v["ml_movie_id"]}')";
-            $temp = $connection->query($query);
-            $temp = $temp->fetch_all(MYSQLI_ASSOC);          
-            $movie_counts = $movie_counts + count($temp);
-            $movie_variances[] = movie_variance($temp);
-        }
-        //print_r($movie_variances);
-        $genre_counts[] = $movie_counts;
-        $genre_variances[] = genre_variance($movie_variances);
-        print_r($genre_variances);
-
-        $query = 'SELECT ml_movie_id FROM ml_movies WHERE (adventure=1)';
-        $adventure_id = $connection->query($query);
-        $adventure_id = $adventure_id->fetch_all(MYSQLI_ASSOC);
-        $adventure_counts = 0;
-        $adventure_variances = array();
-        foreach ($adventure_id as $v) {
-            $query = "SELECT rating FROM ml_ratings WHERE (ml_movie_id='{$v["ml_movie_id"]}')";
-            $temp = $connection->query($query);
-            $temp = $temp->fetch_all(MYSQLI_ASSOC);          
-            $adventure_counts = $adventure_counts + count($temp);
-            $adventure_variances[] = movie_variance($temp);
-        }
-        //print_r($movie_variances);
-        $genre_counts[] = $adventure_counts;
-        $genre_variances[] = genre_variance($adventure_variances);
-        print_r($genre_variances);
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            print_r($movie_ratings);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+        }  */
 
 
-        foreach ($genres as $genre) {
-            $query = "SELECT ml_movie_id FROM ml_movies WHERE ('$genre'=1)";
-            $movie_id = $connection->query($query);
-            $movie_id = $movie_id->fetch_all(MYSQLI_ASSOC);
-            $movie_counts = 0;
-            $movie_variances = array();
-            foreach ($movie_id as $v) {
-                $query = "SELECT rating FROM ml_ratings WHERE (ml_movie_id='{$v["ml_movie_id"]}')";
-                $temp = $connection->query($query);
-                $temp = $temp->fetch_all(MYSQLI_ASSOC);          
-                $movie_counts = $movie_counts + count($temp);
-                $movie_variances[] = movie_variance($temp);
-            }
-            print_r($movie_variances);
-            $genre_counts[] = $movie_counts;
-            $genre_variances[] = genre_variance($movie_variances);
-            //print_r($genre_variances);
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (action=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
         }
         
 
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (adventure=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (animation=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (children=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (comedy=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (crime=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (documentary=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (drama=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (fantasy=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (`film-noir`=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
 
         
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (horror=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (musical=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (mystery=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (romance=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (`sci-fi=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (thriller=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (war=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        $query = "SELECT rating FROM `ml_ratings` WHERE ml_movie_id IN (SELECT ml_movie_id FROM ml_movies WHERE (western=1))";
+        $movie_ratings = $connection->query($query);
+        if ($movie_ratings == FALSE) {
+            $genre_counts[] = 0;
+            $genre_variances[] = 0;
+        } else {
+            $movie_ratings = $movie_ratings->fetch_all(MYSQLI_ASSOC);
+            $genre_counts[] = count($movie_ratings);
+            $genre_variances[] = variance($movie_ratings);
+
+        }
+
+        reset($genre_counts);
+        reset($genre_variances);
+        arsort($genre_counts);
+        arsort($genre_variances);
         //print(array_sum($genre_counts));
-        //print max($counts);
-        //print_r(variance($variances));
-
-
-
-
-        
-    ?>
+        echo "The most popular kind of movies: ".$genres[key($genre_counts)]."<br />";
+        echo "The most polarising kind of movies: ".$genres[key($genre_variances)];
+?>
