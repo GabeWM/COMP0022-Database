@@ -275,6 +275,14 @@
             <!--CASE 4 UI HERE-->
             <div id="case4_container" class="container d-none">
                 <form id="case4_hide1" action="case4.php" method="post">
+                <div class="mb-5">
+                        <label for="case5_movie_id" class="form-label">Movie Title:</label>
+                        <input type="text" class="form-control" id="case4" placeholder="Enter a Movie title" name='case4_title' required> 
+                    </div>
+                    <div class="mb-5">
+                        <label for="case5_movie_id" class="form-label">Number of people at a preview:</label>
+                        <input type="text" class="form-control" id="case4" placeholder="Enter a positive whole number" name='case4_number' required> 
+                    </div>
                     <div class="row">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <input id="case4_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
