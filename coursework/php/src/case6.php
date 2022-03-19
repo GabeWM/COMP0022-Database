@@ -29,11 +29,72 @@
 <?php
     require("connect.php");
 
+    $movie = $_POST['case6_title'];    
+
+    $query1 = "SELECT AVG(tag_values.op2), AVG(tag_values.ag2), AVG(tag_values.es2), AVG(tag_values.co2), AVG(tag_values.ex2) FROM
+        (SELECT * FROM (SELECT DISTINCT ml_tags.tag as tag
+        FROM ml_movies
+        LEFT JOIN ml_tags ON ml_tags.movie_id = ml_movies.movie_id
+        WHERE LOWER(ml_movies.title) = LOWER(\"$movie\") AND tag IS NOT NULL) AS movie_tags1) as movie_tags
+        INNER JOIN (SELECT * FROM(SELECT tag, AVG(op1) as op2, AVG(ag1) as ag2, AVG(es1) as es2, AVG(co1) as co2, AVG(ex1) as ex2
+        FROM (SELECT ml_movies.title as title, LOWER(ml_tags.tag) as tag, AVG(personality.openness) as op1, AVG(personality.agreeableness) as ag1, AVG(personality.emotional_stability) as es1, AVG(personality.conscientiousness) as co1, AVG(personality.extraversion) as ex1
+        FROM ml_movies
+        LEFT JOIN ml_tags ON ml_tags.movie_id = ml_movies.movie_id
+        LEFT JOIN personality_ratings ON ml_movies.movie_id = personality_ratings.movie_id
+        LEFT JOIN personality ON personality_ratings.personality_user_id = personality.personality_user_id
+        WHERE (personality_ratings.rating = 4 OR personality_ratings.rating = 5) 
+            AND ml_tags.movie_id IS NOT NULL
+            AND personality_ratings.movie_id IN 
+                (SELECT ml_movies.movie_id 
+                FROM ml_movies)
+        GROUP BY tag,  ml_movies.movie_id) as movie_tag_pers
+        GROUP BY movie_tag_pers.tag) as tag_values1) as tag_values
+        WHERE movie_tags.tag = tag_values.tag";
+
+    $result1 = mysqli_query($connection, $query1);
+    
+    
+    $query2 = "SELECT * FROM (SELECT DISTINCT ml_tags.tag as tag
+    FROM ml_movies
+    LEFT JOIN ml_tags ON ml_tags.movie_id = ml_movies.movie_id
+    WHERE LOWER(ml_movies.title) = LOWER(\"$movie\") AND tag IS NOT NULL
+    ) AS movie_tags";
+
+    $result2 = mysqli_query($connection, $query2);
+    $result_count = mysqli_num_rows($result2);
+    
     echo '<div class="container">
             <div class="row">
                 <button class="btn btn-warning btn-lg" onClick="GoBackWithRefresh();return false;">Go To Front Page</button>
             </div>
           </div>
-          <br>
-          <h3 class="text-center">Case 6 Output</h3>';
+          <br>';
+
+    if ($result_count > 0) {
+        //List of Tags
+        echo '<div class="container">';
+        echo "<p>The movie, " . $movie .", contains following tags:"; 
+        echo '<table class="table table-center table-bordered" border="1">';
+        echo '<thead> <tr> <th scope="col">Tags</th>';
+        while ($test = mysqli_fetch_array($result2))
+        {
+            echo '<tr> <td>' . $test['tag']. '</td></tr>';
+        }
+        echo '</tbody> </table>';
+        echo '</div>';   
+        //Personality which best suits the movie
+        echo '<div class="container">';
+        echo "<p>The movie, " . $movie .", contains following tags:"; 
+        echo '<table class="table table-center table-bordered" border="1">';
+        echo '<thead> <tr> <th scope="col">Avg(Openness)</th> <th scope="col">Avg(Agreeableness)</th> <th scope="col">Avg(Emotional_Stability)</th> <th scope="col">Avg(Conscientiousness)</th> <th scope="col">Avg(Extraversion)</th> </tr> </thead> <tbody>';
+        while ($row = mysqli_fetch_array($result1))
+        {
+            echo '<tr> <td>' . $row['AVG(tag_values.op2)']. '</td><td>' . $row['AVG(tag_values.ag2)']. '</td><td>' . $row['AVG(tag_values.es2)']. '</td> <td>' . $row['AVG(tag_values.co2)']. '</td> <td>' . $row['AVG(tag_values.ex2)']. '</td></tr>';
+        }
+        echo '</tbody> </table>';
+        echo '</div>';
+    }
+    else {
+        echo '<div class="container"><p>No results found or no tag data available, please try again. </p></div>';
+    }    
 ?>
