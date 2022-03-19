@@ -13,7 +13,7 @@ services:
     volumes:
       - ./php/src/:/var/www/html/
     ports:
-      - :80
+      - 8000:80
     build:
       context: ./php/
       dockerfile: Dockerfile
