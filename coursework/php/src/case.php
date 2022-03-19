@@ -326,6 +326,10 @@
             <!--CASE 6 UI HERE-->
             <div id="case6_container" class="container d-none">
                 <form id="case6_hide1" action="case6.php" method="post">
+                    <div class="mb-3">
+                            <label for="case6_title" class="form-label">Movie Title:</label>
+                            <input type="text" class="form-control" id="case6_title" placeholder="Enter a movie title" name='case6_title' required> 
+                    </div>
                     <div class="row">
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <input id="case6_hide2" class="btn btn-primary btn-lg d-none" type="submit" value="Submit">
