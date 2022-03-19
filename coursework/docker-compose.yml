@@ -1,18 +1,19 @@
 # docker-compose build 
 # docker-compose up
+# docker-compose up --scale php-apache-environment=3
 
 #IF THE ABOVE IS NOT WORKING DELETE EVERY IMAGE AND VOLUME AND TRY AGAIN (it took me 2 hours to figure this out)
 
 services:
   php-apache-environment:
-    container_name: php-apache
+    #container_name: php-apache
     image: php:8.0-apache
     depends_on:
       - db
     volumes:
       - ./php/src/:/var/www/html/
     ports:
-      - 8000:80
+      - :80
     build:
       context: ./php/
       dockerfile: Dockerfile

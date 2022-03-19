@@ -480,7 +480,7 @@
             echo '</div>';
             
         } else {
-            echo '<div class="container"><p>No results found, please try again. </p></div>';
+            echo '<div class="container"><h3>No results found, please try again. </h3></div>';
         }
     ?>
 </html>

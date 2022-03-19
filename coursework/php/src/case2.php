@@ -89,7 +89,7 @@
           <br>';
 
     // general info and tags table
-    if ($general_tag_info_count>0) {
+    if ($general_tag_info_count > 0) {
         // echo $general_tag_info_count;
         echo '<div class="container"><p>Movie Details:</p><table class="table table-center table-bordered" border="1" style=" table-layout: fixed ; width: 100%">';
         echo '<thead> <tr> <th scope="col">Title</th> <th scope="col">Year</th> <th scope="col">Tmdb_id</th> <th scope="col">Imdb_id</th> <th scope="col">Genre</th> <th scope="col">Movie Tags</th> </tr> </thead> <tbody>';
