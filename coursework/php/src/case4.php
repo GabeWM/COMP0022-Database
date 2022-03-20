@@ -39,16 +39,13 @@ function test_input($data) {
 }
 $keyword = test_input($_POST['case4_title']);
 $number = test_input($_POST['case4_number']);
-$id = "SELECT movie_id FROM ml_movies WHERE title = ".$keyword.";";
 $pred_rating_query = 
-		"SELECT AVG(r.rating) AS average
-		FROM (SELECT * FROM ml_ratings WHERE movie_id = ".$id." AND ml_user_id IN (SELECT ml_user_id FROM ml_ratings WHERE movie_id = ".$id.") ORDER BY RAND() LIMIT ".$number.") AS t, ml_ratings r
-		WHERE r.movie_id = t.movie_id
-		AND r.ml_user_id = t.ml_user_id;";
+		"SELECT AVG(t.rating) AS average
+		FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND() LIMIT ".$number.") AS t ";
 
 	$res_avg = $connection -> query($pred_rating_query);
 
-	if ($res_avg->num_rows != 0) {
+	if ($res_avg->num_rows > 0) {
 		echo "<h4>Predicted average rating: </h4>";
 		$row = $res_avg->fetch_assoc();
 		if ($row['average'] != NULL) {
