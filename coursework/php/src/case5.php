@@ -59,6 +59,7 @@
             </div>
           </div>
           <br>';
+    echo $result_count1;
     if ($result_count1 > 0) {
         echo '<div class="container">';
         echo "<p>Training Data Set (30%) for " . $title .":";
@@ -72,7 +73,7 @@
         echo '</div>';
     }
     else {
-        echo '<div class="container"><p>No results found, please try again. </p></div>';
+        echo '<div class="container"><h3>No results found, please try again. </h3></div>';
     }
     if ($result_count2 > 0) {
         echo '<div class="container">';
@@ -85,8 +86,5 @@
         }
         echo '</tbody> </table>';
         echo '</div>';
-    }
-    else {
-        echo '<div class="container"><p>No results found, please try again. </p></div>';
     }
 ?>

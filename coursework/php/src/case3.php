@@ -288,7 +288,7 @@
         arsort($genre_variances);
         //print_r($genre_variances);
         //print(array_sum($genre_counts));
-        echo "The most popular kind of movies: ".$genres[key($genre_counts)]."<br />";
-        echo "The most polarising kind of movies: ".$genres[key($genre_variances)]; 
-        print_r($genre_variances);
+        echo "<h3>The most popular kind of movies: ".$genres[key($genre_counts)]."</h3><br />";
+        echo "<h3>The most polarising kind of movies: ".$genres[key($genre_variances)] . "</h3>";
+        #print_r($genre_variances);
     ?>

@@ -72,7 +72,7 @@ movies_table = movies_table[['ml_movie_id', 'title', 'year', 'imdb_id', 'tmdb_id
        'film-noir', 'horror', 'musical', 'mystery', 'romance', 'sci-fi',
        'thriller', 'war', 'western']]
 movies_table = movies_table.replace(r'^\s*$', numpy.nan, regex=True)
-movies_table.to_csv('ml_movies_table.csv', index=False, encoding='utf-8', na_rep='NULL')
+#movies_table.to_csv('ml_movies_table.csv', index=False, encoding='utf-8', na_rep='NULL')
 
 ############################################ PERSONALITY TABLE/PERSONALITY_PREDICTIONS TABLE #############################################
 
@@ -142,10 +142,12 @@ personality_ratings_table = personality_ratings_table.drop_duplicates()
 tags_table = pd.read_csv("data\\original_data\\ml-latest-small\\tags.csv")
 
 tags_table['timestamp'] = tags_table['timestamp'].apply(lambda x: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
+tags_table['tag'] = tags_table['tag'].apply(lambda x: x.replace('\"', ''))
+tags_table['tag'] = tags_table['tag'].apply(lambda x: x.replace('\'', ''))
 
 #Does not give index label
 tags_table.rename(columns={'userId': 'ml_user_id', 'movieId': 'ml_movie_id'}, inplace=True)
-#tags_table.to_csv('ml_tags_table.csv', index=True, encoding='utf-8', na_rep='NULL')
+tags_table.to_csv('ml_tags_table.csv', index=True, encoding='utf-8', na_rep='NULL')
 
 ############################################ OLD CODE RATINGS TABLE #############################################
 
