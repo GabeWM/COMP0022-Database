@@ -37,8 +37,8 @@ function test_input($data) {
     // $data = htmlspecialchars($data);
     return $data;
 }
-$keyword = test_input($_POST['case4_title']);
-$number = test_input($_POST['case4_number']);
+$keyword = mysqli_real_escape_string($connection, test_input($_POST['case4_title']));
+$number = mysqli_real_escape_string($connection, test_input($_POST['case4_number']));
 $pred_rating_query = 
 		"SELECT AVG(t.rating) AS average
 		FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND() LIMIT ".$number.") AS t ";

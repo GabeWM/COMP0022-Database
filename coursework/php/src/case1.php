@@ -40,19 +40,18 @@
             $data = trim($data);
             $data = stripslashes($data);
             // $data = htmlspecialchars($data);
-            echo $data;
             return $data;
         }
        
-        $title = test_input($_POST['title']);
+        $title = mysqli_real_escape_string($connection, test_input($_POST['title']));
         $genre = array();
         if (isset($_POST['genre'])) {
             $genre = $_POST['genre'];
         }
-        $tmdb_id = $_POST['tmdb_id'];
-        $imdb_id = $_POST['imdb_id'];
-        $start_year = $_POST['start_year'];
-        $end_year = $_POST['end_year'];
+        $tmdb_id = mysqli_real_escape_string($connection, $_POST['tmdb_id']);
+        $imdb_id = mysqli_real_escape_string($connection, $_POST['imdb_id']);
+        $start_year = mysqli_real_escape_string($connection, $_POST['start_year']);
+        $end_year = mysqli_real_escape_string($connection, $_POST['end_year']);
         $and_or = $_POST['case1_and_or'];
         
         global $query;
@@ -381,7 +380,6 @@
         $result = mysqli_query($connection, $query);
         // $row = mysqli_fetch_array($result);
         $result_count = mysqli_num_rows($result);
-        
           
         echo '<div class="container">
                 <div class="row">

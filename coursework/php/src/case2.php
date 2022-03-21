@@ -35,7 +35,7 @@
         return $data;
     }
 
-    $keyword = test_input($_POST['case2_title']);
+    $keyword = mysqli_real_escape_string($connection, test_input($_POST['case2_title']));
     
     $general_n_tags = "SELECT *
     FROM ml_movies m LEFT JOIN (SELECT movie_id, GROUP_CONCAT(DISTINCT tag) as movie_tags FROM ml_tags GROUP BY movie_id) AS t ON m.movie_id=t.movie_id

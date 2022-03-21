@@ -29,7 +29,7 @@
 <?php
     require("connect.php");
 
-    $title = $_POST['case5_title'];
+    $title = mysqli_real_escape_string($connection, $_POST['case5_title']);
 
     $query1 = "SELECT AVG(personality.openness), AVG(personality.agreeableness), AVG(personality.emotional_stability), AVG(personality.conscientiousness), AVG(personality.extraversion)
               FROM personality_ratings 

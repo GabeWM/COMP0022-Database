@@ -29,7 +29,7 @@
 <?php
     require("connect.php");
 
-    $movie = $_POST['case6_title'];    
+    $movie = mysqli_real_escape_string($connection, $_POST['case6_title']);    
 
     $query1 = "SELECT AVG(tag_values.op2), AVG(tag_values.ag2), AVG(tag_values.es2), AVG(tag_values.co2), AVG(tag_values.ex2) FROM
         (SELECT * FROM (SELECT DISTINCT ml_tags.tag as tag
