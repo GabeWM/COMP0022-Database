@@ -35,6 +35,13 @@ DROP TABLE `personality`;
 DROP TABLE `movies`;
 */
 
+CREATE TABLE IF NOT EXISTS `users` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `username` VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS `ml_movies` (
     `movie_id` INT UNIQUE NOT NULL, 
     `title` VARCHAR(200) NOT NULL, 
