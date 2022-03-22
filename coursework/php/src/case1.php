@@ -122,7 +122,7 @@
             $genre_type = implode(',', $_POST['genre']);
             $title_genre_check = 3;
         }
-
+        global $temp;
         $temp = "";
         foreach ($genre as $genre_elem) {
             $temp = $temp . $genre_elem . " = 1 AND ";
@@ -163,7 +163,7 @@
                     $query = "SELECT * FROM ml_movies WHERE year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
@@ -175,7 +175,7 @@
                     $query = "SELECT * FROM ml_movies WHERE (imdb_id=$imdb_id)";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND (imdb_id=$imdb_id)";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND (imdb_id=$imdb_id)";
                 }
             }
             else {
@@ -187,7 +187,7 @@
                     $query = "SELECT * FROM ml_movies WHERE (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
@@ -199,7 +199,7 @@
                     $query = "SELECT * FROM ml_movies WHERE (tmdb_id=$tmdb_id)";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND (tmdb_id=$tmdb_id)";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND (tmdb_id=$tmdb_id)";
                 }
             }
             else {
@@ -211,7 +211,7 @@
                     $query = "SELECT * FROM ml_movies WHERE (tmdb_id=$tmdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND (tmdb_id=$tmdb_id) AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND (tmdb_id=$tmdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
@@ -223,7 +223,7 @@
                     $query = "SELECT * FROM ml_movies WHERE (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id)";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id)";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id)";
                 }
             }
             else {
@@ -235,7 +235,7 @@
                     $query = "SELECT * FROM ml_movies WHERE (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
@@ -263,7 +263,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%'";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%'";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%'";
                 }
             }
             else {
@@ -275,7 +275,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%' AND year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%' AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%' AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
@@ -287,7 +287,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%' AND (imdb_id=$imdb_id)";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%' AND (imdb_id=$imdb_id)";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%' AND (imdb_id=$imdb_id)";
                 }
             }
             else {
@@ -299,7 +299,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%' AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%' AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%' AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
@@ -311,7 +311,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%' AND (tmdb_id=$tmdb_id)";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id)";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id)";
                 }
             }
             else {
@@ -323,7 +323,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
@@ -335,7 +335,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id)";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id)";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id)";
                 }
             }
             else {
@@ -347,7 +347,7 @@
                     $query = "SELECT * FROM ml_movies WHERE title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
                 else {
-                    $query = "SELECT * FROM ml_movies WHERE " . temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
+                    $query = "SELECT * FROM ml_movies WHERE " . $temp . " AND title LIKE '%$title%' AND (tmdb_id=$tmdb_id) AND (imdb_id=$imdb_id) AND year BETWEEN $start_year AND $end_year";
                 }
             }
             else {
