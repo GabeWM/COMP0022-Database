@@ -37,17 +37,66 @@ function test_input($data) {
     // $data = htmlspecialchars($data);
     return $data;
 }
+
 $keyword = mysqli_real_escape_string($connection, test_input($_POST['case4_title']));
 $number = mysqli_real_escape_string($connection, test_input($_POST['case4_number']));
 $pred_rating_query = 
 		"SELECT AVG(t.rating) AS average
 		FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND() LIMIT ".$number.") AS t ";
 
-	$res_avg = $connection -> query($pred_rating_query);
+$result_selected = $connection -> query($pred_rating_query);
 
-	if ($res_avg->num_rows > 0) {
-		echo "<h4>Predicted average rating: </h4>";
-		$row = $res_avg->fetch_assoc();
+$pred_rating_query_10 = 
+    "SELECT AVG(t.rating) AS average
+    FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND() LIMIT 10) AS t ";
+
+$result_10 = $connection -> query($pred_rating_query_10);
+
+$pred_rating_query_20 = 
+		"SELECT AVG(t.rating) AS average
+		FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND() LIMIT 20) AS t ";
+
+$result_20 = $connection -> query($pred_rating_query_20);
+
+$pred_rating_query_all = 
+		"SELECT AVG(t.rating) AS average
+		FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND()) AS t ";
+
+$result_all = $connection -> query($pred_rating_query_all);
+
+	if ($result_selected->num_rows > 0) {
+		echo "<h4>Predicted average rating within the given number of people at preview : </h4>";
+		$row = $result_selected->fetch_assoc();
+		if ($row['average'] != NULL) {
+			 echo "<p>{$row['average']} / 5</p>";
+		} else {
+			echo "<p class=\"text-danger\">Not available due to limited information</p>";
+		}
+	} 
+
+    if ($result_10->num_rows > 0) {
+		echo "<h4>Predicted average rating within 10 people at preview: </h4>";
+		$row = $result_10->fetch_assoc();
+		if ($row['average'] != NULL) {
+			 echo "<p>{$row['average']} / 5</p>";
+		} else {
+			echo "<p class=\"text-danger\">Not available due to limited information</p>";
+		}
+	} 
+
+    if ($result_20->num_rows > 0) {
+		echo "<h4>Predicted average rating within 20 people at preview: </h4>";
+		$row = $result_20->fetch_assoc();
+		if ($row['average'] != NULL) {
+			 echo "<p>{$row['average']} / 5</p>";
+		} else {
+			echo "<p class=\"text-danger\">Not available due to limited information</p>";
+		}
+	} 
+
+    if ($result_all->num_rows > 0) {
+		echo "<h4>Actual average rating: </h4>";
+		$row = $result_all->fetch_assoc();
 		if ($row['average'] != NULL) {
 			 echo "<p>{$row['average']} / 5</p>";
 		} else {
