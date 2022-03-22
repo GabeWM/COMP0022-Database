@@ -290,5 +290,27 @@
         //print(array_sum($genre_counts));
         echo "<h3>The most popular kind of movies: ".$genres[key($genre_counts)]."</h3><br />";
         echo "<h3>The most polarising kind of movies: ".$genres[key($genre_variances)] . "</h3>";
-        #print_r($genre_variances);
+
+        $rank = 1;
+        echo '<div class="container">';
+        echo "<p>Popularity Ranking ";
+        echo '<table class="table table-center table-bordered" border="1">';
+        echo '<thead> <tr> <th scope="col">Rank</th> <th scope="col">Kind</th> <th scope="col">Number of ratings</th> </tr> </thead> <tbody>';
+        foreach ($genre_counts as $v) {
+            echo '<tr> <td>' . $rank.'</td><td>' . $genres[array_keys($genre_counts,$v)[0]]. '</td><td>' . $v. '</td><td>';
+            $rank = $rank + 1;
+        }
+        echo '</tbody> </table>';
+        echo '</div>';
+
+        $rank = 1;
+        echo '<div class="container">';
+        echo "<p>Polarity Ranking ";
+        echo '<table class="table table-center table-bordered" border="1">';
+        echo '<thead> <tr> <th scope="col">Rank</th> <th scope="col">Kind</th> <th scope="col">Variance</th> </tr> </thead> <tbody>';
+        foreach ($genre_variances as $v) {
+            echo '<tr> <td>' . $rank.'</td><td>' . $genres[array_keys($genre_variances,$v)[0]]. '</td><td>' . $v. '</td><td>';
+            $rank = $rank + 1;
+        }
+
     ?>
