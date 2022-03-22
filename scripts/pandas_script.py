@@ -147,7 +147,7 @@ tags_table['tag'] = tags_table['tag'].apply(lambda x: x.replace('\'', ''))
 
 #Does not give index label
 tags_table.rename(columns={'userId': 'ml_user_id', 'movieId': 'ml_movie_id'}, inplace=True)
-tags_table.to_csv('ml_tags_table.csv', index=True, encoding='utf-8', na_rep='NULL')
+#tags_table.to_csv('ml_tags_table.csv', index=True, encoding='utf-8', na_rep='NULL')
 
 ############################################ OLD CODE RATINGS TABLE #############################################
 
