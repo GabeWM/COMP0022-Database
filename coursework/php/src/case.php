@@ -164,7 +164,7 @@
                             <div class="col">
                                     <label for="case1_and_or" class="form-label">Select "And" or "Or" for Genres</label>
                                     <select class="form-select" id="case1_and_or" name="case1_and_or" required>
-                                        <option value="">Nothing Selected</option>
+                                        <!-- <option value="">Nothing Selected</option> -->
                                         <option value="or" selected>Or</option>
                                         <option value="and">And</option>
                                     </select>
