@@ -26,8 +26,6 @@
         <p class="text-center">for marketing professionals</p>
     </head>
     <?php
-
-require("connect.php");
 /*
 Predicting how a film will be rated after its release from the reactions of a small preview audience, i.e., taking a sub-set of
 the viewers for a particular movie in the data set and treating them as though they were people at a preview, is it possible
@@ -60,21 +58,20 @@ $pred_rating_query_20 =
 
 $result_20 = $connection -> query($pred_rating_query_20);
 
+$pred_rating_query_30 = 
+		"SELECT AVG(t.rating) AS average
+		FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND() LIMIT 20) AS t ";
+
+$result_30 = $connection -> query($pred_rating_query_30);
+
 $pred_rating_query_all = 
 		"SELECT AVG(t.rating) AS average
 		FROM (SELECT * FROM ml_ratings WHERE movie_id IN (SELECT movie_id FROM ml_movies WHERE title = \"$keyword\") ORDER BY RAND()) AS t ";
 
 $result_all = $connection -> query($pred_rating_query_all);
 
-echo '<div class="container">
-		<div class="row">
-			<button class="btn btn-warning btn-lg" onClick="GoBackWithRefresh();return false;">Go To Front Page</button>
-		</div>
-		</div>
-		<br>';
-
 	if ($result_selected->num_rows > 0) {
-		echo "<h3>Predicted average rating within the given number of people at preview : </h3>";
+		echo "<h4>Predicted average rating within the given number of people at preview : </h4>";
 		$row = $result_selected->fetch_assoc();
 		if ($row['average'] != NULL) {
 			 echo "<p>{$row['average']} / 5</p>";
@@ -84,7 +81,7 @@ echo '<div class="container">
 	} 
 
     if ($result_10->num_rows > 0) {
-		echo "<h3>Predicted average rating within 10 people at preview: </h3>";
+		echo "<h4>Predicted average rating within 10 people at preview: </h4>";
 		$row = $result_10->fetch_assoc();
 		if ($row['average'] != NULL) {
 			 echo "<p>{$row['average']} / 5</p>";
@@ -94,7 +91,7 @@ echo '<div class="container">
 	} 
 
     if ($result_20->num_rows > 0) {
-		echo "<h3>Predicted average rating within 20 people at preview: </h3>";
+		echo "<h4>Predicted average rating within 20 people at preview: </h4>";
 		$row = $result_20->fetch_assoc();
 		if ($row['average'] != NULL) {
 			 echo "<p>{$row['average']} / 5</p>";
@@ -103,8 +100,18 @@ echo '<div class="container">
 		}
 	} 
 
+    if ($result_30->num_rows > 0) {
+		echo "<h4>Predicted average rating within 30 people at preview: </h4>";
+		$row = $result_30->fetch_assoc();
+		if ($row['average'] != NULL) {
+			 echo "<p>{$row['average']} / 5</p>";
+		} else {
+			echo "<p class=\"text-danger\">Not available due to limited information</p>";
+		}
+	} 
+	
     if ($result_all->num_rows > 0) {
-		echo "<h3>Actual average rating: </h3>";
+		echo "<h4>Actual average rating: </h4>";
 		$row = $result_all->fetch_assoc();
 		if ($row['average'] != NULL) {
 			 echo "<p>{$row['average']} / 5</p>";
@@ -112,4 +119,16 @@ echo '<div class="container">
 			echo "<p class=\"text-danger\">Not available due to limited information</p>";
 		}
 	} 
+?>
+
+<?php
+    require("connect.php");
+
+    echo '<div class="container">
+            <div class="row">
+                <button class="btn btn-warning btn-lg" onClick="GoBackWithRefresh();return false;">Go To Front Page</button>
+            </div>
+          </div>
+          <br>
+          <h3 class="text-center">Case 4 Output</h3>';
 ?>
